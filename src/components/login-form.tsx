@@ -27,7 +27,8 @@ export function LoginForm() {
       setError(signInError.message);
       return;
     }
-    router.push("/merchant/dashboard");
+    const { data: profile } = await supabase.from("users").select("role").single();
+    router.push(profile?.role === "super_admin" ? "/admin" : "/merchant/dashboard");
     router.refresh();
   }
 
