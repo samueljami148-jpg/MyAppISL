@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 7%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 7%;
+  --muted: 42 36% 94%;
+  --muted-foreground: 0 0% 39%;
+  --primary: 48 100% 50%;
+  --primary-foreground: 0 0% 4%;
+  --destructive: 0 82% 58%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 45 22% 86%;
+  --input: 45 22% 86%;
+  --ring: 48 100% 48%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.noise {
+  background-image: radial-gradient(circle at top left, rgba(255, 214, 0, 0.16), transparent 32rem),
+    linear-gradient(180deg, #fff 0%, #fffaf0 42%, #ffffff 100%);
+}
