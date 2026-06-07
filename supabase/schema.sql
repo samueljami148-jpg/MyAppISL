@@ -77,13 +77,19 @@ create index transactions_merchant_id_idx on public.transactions(merchant_id);
 create index transactions_card_id_idx on public.transactions(card_id);
 create index notifications_merchant_id_idx on public.notifications(merchant_id);
 
-grant usage on schema public to anon, authenticated;
+grant usage on schema public to anon, authenticated, service_role;
 grant select on public.merchants to anon, authenticated;
+grant all privileges on public.merchants to service_role;
 grant select, insert, update, delete on public.users to authenticated;
+grant all privileges on public.users to service_role;
 grant select, insert, update, delete on public.customers to authenticated;
+grant all privileges on public.customers to service_role;
 grant select, insert, update, delete on public.loyalty_cards to authenticated;
+grant all privileges on public.loyalty_cards to service_role;
 grant select, insert, update, delete on public.transactions to authenticated;
+grant all privileges on public.transactions to service_role;
 grant select, insert, update, delete on public.notifications to authenticated;
+grant all privileges on public.notifications to service_role;
 
 create or replace function public.touch_updated_at()
 returns trigger
