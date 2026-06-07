@@ -8,6 +8,7 @@ export type Merchant = {
   name: string;
   type: MerchantType;
   logo_url: string | null;
+  card_image_url: string | null;
   primary_color: string;
   reward_required_points: number;
   reward_name: string;
@@ -29,6 +30,7 @@ export type Customer = {
   id: string;
   merchant_id: string;
   first_name: string;
+  last_name: string | null;
   phone: string;
   email: string | null;
   created_at: string;

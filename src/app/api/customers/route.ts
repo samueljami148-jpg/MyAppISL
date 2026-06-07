@@ -6,11 +6,12 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const merchantId = String(body.merchantId || "");
   const firstName = String(body.firstName || "").trim();
+  const lastName = String(body.lastName || "").trim();
   const phone = String(body.phone || "").trim();
   const email = body.email ? String(body.email).trim().toLowerCase() : null;
 
-  if (!merchantId || !firstName || !phone) {
-    return Response.json({ error: "Prenom et telephone requis" }, { status: 400 });
+  if (!merchantId || !firstName || !lastName || !phone || !email) {
+    return Response.json({ error: "Nom, prenom, email et telephone requis" }, { status: 400 });
   }
 
   const supabase = createSupabaseAdminClient();
@@ -28,6 +29,7 @@ export async function POST(request: NextRequest) {
     id: customerId,
     merchant_id: merchantId,
     first_name: firstName,
+    last_name: lastName,
     phone,
     email
   });

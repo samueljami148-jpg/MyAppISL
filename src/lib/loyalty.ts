@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import QRCode from "qrcode";
 import { appUrl } from "@/lib/utils";
-import type { CardStatus, LoyaltyCardWithCustomer, MerchantType } from "@/types/database";
+import type { CardStatus, Customer, LoyaltyCardWithCustomer, MerchantType } from "@/types/database";
 
 export function normalizeMerchantType(value: FormDataEntryValue | null): MerchantType {
   const allowed: MerchantType[] = ["restaurant", "cafe", "coiffeur", "barber", "gym", "other"];
@@ -56,4 +56,8 @@ export function cardDisplay(card: LoyaltyCardWithCustomer) {
     isRewardAvailable: card.status === "reward_available",
     statusText: card.status === "reward_available" ? "Recompense disponible" : "Actif"
   };
+}
+
+export function formatCustomerName(customer: Pick<Customer, "first_name" | "last_name">) {
+  return [customer.first_name, customer.last_name].filter(Boolean).join(" ");
 }

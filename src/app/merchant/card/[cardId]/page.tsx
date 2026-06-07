@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CardActions } from "@/components/card-actions";
 import { getCardWithRelations } from "@/lib/cards";
 import { requireMerchant } from "@/lib/auth";
-import { cardDisplay } from "@/lib/loyalty";
+import { cardDisplay, formatCustomerName } from "@/lib/loyalty";
 import { formatDate } from "@/lib/utils";
 
 export default async function MerchantCardPage({ params }: { params: Promise<{ cardId: string }> }) {
@@ -25,7 +25,7 @@ export default async function MerchantCardPage({ params }: { params: Promise<{ c
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Fiche client</p>
-                <CardTitle className="text-3xl">{card.customers.first_name}</CardTitle>
+                <CardTitle className="text-3xl">{formatCustomerName(card.customers)}</CardTitle>
               </div>
               <Badge tone={display.isRewardAvailable ? "warning" : "success"}>{display.statusText}</Badge>
             </div>

@@ -5,7 +5,7 @@ import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Textarea } from "@/components/ui/input";
 
-export function NotificationForm() {
+export function NotificationForm({ merchantId }: { merchantId?: string }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -17,6 +17,7 @@ export function NotificationForm() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        merchantId,
         title: form.get("title"),
         message: form.get("message")
       })

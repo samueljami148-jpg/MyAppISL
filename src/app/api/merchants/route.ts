@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
     name,
     type: normalizeMerchantType(form.get("type")),
     logo_url: String(form.get("logo_url") || "") || null,
+    card_image_url: String(form.get("card_image_url") || "") || null,
     primary_color: String(form.get("primary_color") || "#FFD600"),
     reward_required_points: Number(form.get("reward_required_points") || 10),
     reward_name: String(form.get("reward_name") || "Recompense"),

@@ -45,6 +45,7 @@ export function MerchantForm() {
         <Input name="email" type="email" placeholder="Email du compte commercant" required />
         <Input name="password" type="text" placeholder="Mot de passe temporaire optionnel" />
         <Input name="logo_url" placeholder="URL logo" />
+        <Input name="card_image_url" placeholder="URL photo de la carte Wallet" />
         <Input name="primary_color" type="color" defaultValue="#FFD600" aria-label="Couleur principale" />
         <Input name="reward_required_points" type="number" min="1" defaultValue="10" placeholder="Points requis" />
         <Input name="reward_name" defaultValue="Menu offert" placeholder="Nom de la recompense" />

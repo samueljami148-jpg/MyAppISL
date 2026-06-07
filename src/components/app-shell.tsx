@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CreditCard, LayoutDashboard, ScanLine, Send, Shield } from "lucide-react";
+import { LogoutButton } from "@/components/logout-button";
 
 const merchantLinks = [
   { href: "/merchant/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -43,6 +44,7 @@ export function AppShell({
               <span className="hidden md:inline">{link.label}</span>
             </Link>
           ))}
+          <LogoutButton />
         </nav>
       </aside>
       <section className="mx-auto min-h-screen max-w-6xl px-4 pb-24 pt-6 md:ml-64 md:px-8 md:pb-10">{children}</section>

@@ -22,6 +22,10 @@ export default async function SuccessPage({ params }: { params: Promise<{ mercha
         <Card className="overflow-hidden shadow-soft">
           <div className="h-2" style={{ background: card.merchants.primary_color }} />
           <CardContent className="p-5 text-center">
+            {card.merchants.card_image_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={card.merchants.card_image_url} alt={card.merchants.name} className="mx-auto mb-4 h-36 w-full rounded-xl object-cover" />
+            ) : null}
             <p className="text-sm font-semibold uppercase text-muted-foreground">{card.merchants.name}</p>
             <p className="mt-3 text-5xl font-bold tracking-normal">0 / {card.merchants.reward_required_points}</p>
             <p className="mt-3 text-lg font-semibold">🎁 {card.merchants.reward_name}</p>

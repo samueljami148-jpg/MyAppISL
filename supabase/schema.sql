@@ -11,6 +11,7 @@ create table public.merchants (
   name text not null,
   type merchant_type not null default 'other',
   logo_url text,
+  card_image_url text,
   primary_color text not null default '#FFD600',
   reward_required_points integer not null check (reward_required_points > 0),
   reward_name text not null,
@@ -35,6 +36,7 @@ create table public.customers (
   id uuid primary key default gen_random_uuid(),
   merchant_id uuid not null references public.merchants(id) on delete cascade,
   first_name text not null,
+  last_name text,
   phone text not null,
   email text,
   created_at timestamptz not null default now()

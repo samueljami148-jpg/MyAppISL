@@ -28,7 +28,12 @@ export default async function MerchantsPage() {
                 <p className="font-semibold">{merchant.name}</p>
                 <p className="text-sm text-muted-foreground">{merchant.description}</p>
               </div>
-              <Badge>{merchant.type}</Badge>
+              <div className="flex items-center gap-3">
+                <Badge>{merchant.type}</Badge>
+                <Link className="rounded-lg border bg-white px-3 py-2 text-sm font-semibold" href={`/admin/merchants/${merchant.id}`}>
+                  Gerer
+                </Link>
+              </div>
             </CardContent>
           </Card>
         ))}
