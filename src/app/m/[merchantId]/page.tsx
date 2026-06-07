@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { CreditCard } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicSignupForm } from "@/components/public-signup-form";
+import { WalletCardPreview } from "@/components/wallet-card-preview";
 import { createSupabaseAdminClient } from "@/lib/supabase";
 import type { Merchant } from "@/types/database";
 
@@ -27,6 +28,7 @@ export default async function PublicMerchantPage({ params }: { params: Promise<{
           <h1 className="text-3xl font-bold tracking-normal">{merchant.name}</h1>
           <p className="mx-auto mt-3 max-w-sm text-lg font-semibold" dir="auto">{merchant.description}</p>
         </div>
+        <WalletCardPreview merchant={merchant} />
         <Card className="shadow-soft">
           <CardContent className="p-5">
             <p className="mb-4 text-sm font-semibold text-muted-foreground">

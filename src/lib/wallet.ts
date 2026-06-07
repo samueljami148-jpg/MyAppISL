@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
 import { appUrl } from "@/lib/utils";
-import { qrPayload } from "@/lib/loyalty";
+import { formatCustomerName, qrPayload } from "@/lib/loyalty";
 import type { LoyaltyCardWithCustomer } from "@/types/database";
 
 function hasAppleCredentials() {
@@ -57,7 +57,7 @@ export async function buildApplePass(card: LoyaltyCardWithCustomer) {
       description: card.merchants.reward_name,
       foregroundColor: "rgb(0,0,0)",
       backgroundColor: hexToRgb(card.merchants.primary_color),
-      labelColor: "rgb(0,0,0)",
+      labelColor: hexToRgb(card.merchants.card_text_color || "#111111"),
       logoText: card.merchants.name,
       formatVersion: 1
     }
@@ -77,8 +77,11 @@ export async function buildApplePass(card: LoyaltyCardWithCustomer) {
   pass.auxiliaryFields.push({
     key: "customer",
     label: "CLIENT",
-    value: card.customers.first_name
+    value: formatCustomerName(card.customers)
   });
+  await addPassImage(pass, "logo.png", card.merchants.card_logo_url || card.merchants.logo_url);
+  await addPassImage(pass, "strip.png", card.merchants.card_strip_url);
+  await addPassImage(pass, "thumbnail.png", card.merchants.card_thumbnail_url);
   pass.setBarcodes({
     message: qrPayload(card.id),
     format: "PKBarcodeFormatQR",
@@ -102,7 +105,7 @@ export async function buildApplePass(card: LoyaltyCardWithCustomer) {
 export async function buildGoogleWalletLink(card: LoyaltyCardWithCustomer) {
   const issuer = process.env.GOOGLE_WALLET_ISSUER_ID;
   if (!issuer) {
-    return appUrl(`/m/${card.merchant_id}/success/${card.id}?wallet=google-demo`);
+    return appUrl(`/m/${card.merchant_id}/success/${card.id}?wallet=google-missing-credentials`);
   }
 
   const objectId = `${issuer}.${card.id.replace(/-/g, "_")}`;
@@ -117,8 +120,14 @@ export async function buildGoogleWalletLink(card: LoyaltyCardWithCustomer) {
           classId: `${issuer}.${process.env.GOOGLE_WALLET_CLASS_SUFFIX || "loyalpass"}`,
           genericType: "GENERIC_TYPE_LOYALTY_CARD",
           cardTitle: { defaultValue: { language: "fr", value: card.merchants.name } },
-          header: { defaultValue: { language: "fr", value: `${card.current_points} / ${card.merchants.reward_required_points}` } },
+          header: { defaultValue: { language: "fr", value: `${formatCustomerName(card.customers)} - ${card.current_points} / ${card.merchants.reward_required_points} points` } },
           subheader: { defaultValue: { language: "fr", value: card.merchants.reward_name } },
+          logo: card.merchants.card_logo_url || card.merchants.logo_url ? {
+            sourceUri: { uri: card.merchants.card_logo_url || card.merchants.logo_url }
+          } : undefined,
+          heroImage: card.merchants.card_background_url || card.merchants.card_image_url ? {
+            sourceUri: { uri: card.merchants.card_background_url || card.merchants.card_image_url }
+          } : undefined,
           barcode: {
             type: "QR_CODE",
             value: qrPayload(card.id)
@@ -130,6 +139,19 @@ export async function buildGoogleWalletLink(card: LoyaltyCardWithCustomer) {
   };
 
   return `https://pay.google.com/gp/v/save/${Buffer.from(JSON.stringify(payload)).toString("base64url")}`;
+}
+
+async function addPassImage(pass: unknown, filename: string, url: string | null | undefined) {
+  if (!url || url.startsWith("data:")) return;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) return;
+    const buffer = Buffer.from(await response.arrayBuffer());
+    const target = pass as { addBuffer?: (name: string, data: Buffer) => void };
+    target.addBuffer?.(filename, buffer);
+  } catch {
+    // Missing design assets should not block card generation.
+  }
 }
 
 export async function updateWallets(card: LoyaltyCardWithCustomer) {

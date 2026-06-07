@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
   const phone = String(body.phone || "").trim();
   const email = body.email ? String(body.email).trim().toLowerCase() : null;
 
-  if (!merchantId || !firstName || !lastName || !phone || !email) {
-    return Response.json({ error: "Nom, prenom, email et telephone requis" }, { status: 400 });
+  if (!merchantId || !firstName || !phone) {
+    return Response.json({ error: "Prenom et telephone requis" }, { status: 400 });
   }
 
   const supabase = createSupabaseAdminClient();
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     id: customerId,
     merchant_id: merchantId,
     first_name: firstName,
-    last_name: lastName,
+    last_name: lastName || null,
     phone,
     email
   });

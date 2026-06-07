@@ -1,7 +1,4 @@
 alter table public.merchants
-add column if not exists card_image_url text;
-
-alter table public.merchants
 add column if not exists card_background_url text,
 add column if not exists card_logo_url text,
 add column if not exists card_strip_url text,
@@ -10,8 +7,4 @@ add column if not exists card_text_color text not null default '#111111',
 add column if not exists card_qr_position text not null default 'bottom_right',
 add column if not exists card_design_config jsonb not null default '{}'::jsonb;
 
-alter table public.customers
-add column if not exists last_name text;
-
 grant all privileges on public.merchants to service_role;
-grant all privileges on public.customers to service_role;

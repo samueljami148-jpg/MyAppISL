@@ -46,7 +46,10 @@ export function MerchantForm() {
         <Input name="password" type="text" placeholder="Mot de passe temporaire optionnel" />
         <Input name="logo_url" placeholder="URL logo" />
         <Input name="card_image_url" placeholder="URL photo de la carte Wallet" />
+        <Input name="card_background_url" placeholder="URL background carte Wallet" />
+        <Input name="card_logo_url" placeholder="URL logo carte Wallet" />
         <Input name="primary_color" type="color" defaultValue="#FFD600" aria-label="Couleur principale" />
+        <Input name="card_text_color" type="color" defaultValue="#111111" aria-label="Couleur texte carte" />
         <Input name="reward_required_points" type="number" min="1" defaultValue="10" placeholder="Points requis" />
         <Input name="reward_name" defaultValue="Menu offert" placeholder="Nom de la recompense" />
         <Textarea name="description" dir="auto" defaultValue="קנו 10 ארוחות וקבלו ארוחה במתנה" placeholder="Description de l'offre" />

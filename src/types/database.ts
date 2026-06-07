@@ -9,6 +9,13 @@ export type Merchant = {
   type: MerchantType;
   logo_url: string | null;
   card_image_url: string | null;
+  card_background_url: string | null;
+  card_logo_url: string | null;
+  card_strip_url: string | null;
+  card_thumbnail_url: string | null;
+  card_text_color: string;
+  card_qr_position: "bottom_right" | "bottom_left" | "center";
+  card_design_config: Record<string, unknown>;
   primary_color: string;
   reward_required_points: number;
   reward_name: string;

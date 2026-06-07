@@ -38,12 +38,12 @@ export function PublicSignupForm({ merchantId }: { merchantId: string }) {
   return (
     <form onSubmit={onSubmit} className="space-y-3">
       <Input name="firstName" placeholder="Prenom" required autoComplete="given-name" />
-      <Input name="lastName" placeholder="Nom" required autoComplete="family-name" />
+      <Input name="lastName" placeholder="Nom facultatif" autoComplete="family-name" />
       <Input name="phone" type="tel" placeholder="Telephone" required autoComplete="tel" />
-      <Input name="email" type="email" placeholder="Email" required autoComplete="email" />
+      <Input name="email" type="email" placeholder="Email facultatif" autoComplete="email" />
       {error ? <p className="text-sm font-semibold text-red-600">{error}</p> : null}
       <Button className="w-full" size="lg" disabled={loading}>
-        {loading ? "Creation..." : "Creer ma carte"}
+        {loading ? "Creation..." : "Creer ma carte fidelite"}
       </Button>
     </form>
   );

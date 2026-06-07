@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { CreditCard, LayoutDashboard, ScanLine, Send, Shield } from "lucide-react";
+import { CreditCard, LayoutDashboard, Link as LinkIcon, Palette, ScanLine, Send, Shield } from "lucide-react";
 import { LogoutButton } from "@/components/logout-button";
 
 const merchantLinks = [
   { href: "/merchant/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/merchant/scan", label: "Scanner", icon: ScanLine },
+  { href: "/merchant/invite", label: "Lien client", icon: LinkIcon },
+  { href: "/merchant/card-design", label: "Design carte", icon: Palette },
   { href: "/merchant/notifications", label: "Messages", icon: Send }
 ];
 
@@ -33,7 +35,7 @@ export function AppShell({
             <p className="text-xs text-muted-foreground">Wallet loyalty SaaS</p>
           </div>
         </Link>
-        <nav className="grid grid-cols-3 gap-2 md:flex md:flex-col">
+        <nav className="grid grid-cols-5 gap-1 md:flex md:flex-col md:gap-2">
           {links.map((link) => (
             <Link
               key={link.href}
