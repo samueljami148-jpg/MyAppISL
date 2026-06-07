@@ -18,7 +18,7 @@ export function LoginForm() {
     setError("");
     const form = new FormData(event.currentTarget);
     const supabase = createSupabaseBrowserClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
       email: String(form.get("email")),
       password: String(form.get("password"))
     });
@@ -27,7 +27,18 @@ export function LoginForm() {
       setError(signInError.message);
       return;
     }
-    const { data: profile } = await supabase.from("users").select("role").single();
+    const roleResponse = await fetch("/api/auth/role", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accessToken: data.session.access_token })
+    });
+    const profile = await roleResponse.json();
+
+    if (!roleResponse.ok) {
+      setError(profile.error || "Profil utilisateur introuvable");
+      return;
+    }
+
     router.push(profile?.role === "super_admin" ? "/admin" : "/merchant/dashboard");
     router.refresh();
   }
