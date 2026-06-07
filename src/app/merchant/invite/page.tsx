@@ -7,7 +7,7 @@ import { WalletCardPreview } from "@/components/wallet-card-preview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireMerchant } from "@/lib/auth";
 import { createSupabaseAdminClient } from "@/lib/supabase";
-import { enrollmentUrl } from "@/lib/loyalty";
+import { merchantSignupUrl, getRequestOrigin } from "@/lib/request-url";
 import type { Merchant } from "@/types/database";
 
 export default async function MerchantInvitePage() {
@@ -15,7 +15,7 @@ export default async function MerchantInvitePage() {
   const supabase = createSupabaseAdminClient();
   const { data } = await supabase.from("merchants").select("*").eq("id", user.merchant_id).single();
   const merchant = data as Merchant;
-  const inviteUrl = enrollmentUrl(merchant.id);
+  const inviteUrl = merchantSignupUrl(await getRequestOrigin(), merchant.id);
   const qr = await QRCode.toDataURL(inviteUrl, { margin: 1, width: 420 });
 
   return (

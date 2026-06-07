@@ -1,9 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Apple, BadgePlus } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { WalletCardPreview } from "@/components/wallet-card-preview";
+import { WalletAddButtons } from "@/components/wallet-add-buttons";
 import { getCardWithRelations } from "@/lib/cards";
 import { applePassUrl, googlePassUrl, qrDataUrl } from "@/lib/loyalty";
 
@@ -28,14 +27,12 @@ export default async function SuccessPage({ params }: { params: Promise<{ mercha
           </CardContent>
         </Card>
         <div className="grid gap-3">
-          <Link href={applePassUrl(card.id)} className="flex h-14 items-center justify-center gap-2 rounded-lg bg-black px-5 font-semibold text-white">
-            <Apple size={20} />
-            Ajouter a Apple Wallet
-          </Link>
-          <Link href={googlePassUrl(card.id)} className="flex h-14 items-center justify-center gap-2 rounded-lg border bg-white px-5 font-semibold">
-            <BadgePlus size={20} />
-            Ajouter a Google Wallet
-          </Link>
+          <WalletAddButtons
+            appleUrl={applePassUrl(card.id)}
+            googleUrl={googlePassUrl(card.id)}
+            appleConfigured={Boolean(process.env.APPLE_PASS_TYPE_IDENTIFIER && process.env.APPLE_TEAM_IDENTIFIER)}
+            googleConfigured={Boolean(process.env.GOOGLE_WALLET_ISSUER_ID)}
+          />
         </div>
       </section>
     </main>

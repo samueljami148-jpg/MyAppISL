@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireSuperAdmin } from "@/lib/auth";
 import { createSupabaseAdminClient } from "@/lib/supabase";
-import { enrollmentUrl, formatCustomerName } from "@/lib/loyalty";
+import { formatCustomerName } from "@/lib/loyalty";
+import { getRequestOrigin, merchantSignupUrl } from "@/lib/request-url";
 import { formatDate } from "@/lib/utils";
 import type { Customer, LoyaltyCard, Merchant, Notification } from "@/types/database";
 
@@ -35,6 +36,7 @@ export default async function AdminMerchantDetailPage({ params }: { params: Prom
   if (!merchant) notFound();
   const customers = (customersResult.data || []) as CustomerRow[];
   const notifications = (notificationsResult.data || []) as Notification[];
+  const publicUrl = merchantSignupUrl(await getRequestOrigin(), merchant.id);
 
   return (
     <AppShell role="admin">
@@ -42,10 +44,10 @@ export default async function AdminMerchantDetailPage({ params }: { params: Prom
         <div>
           <p className="text-sm font-semibold uppercase text-muted-foreground">Commerce</p>
           <h1 className="text-3xl font-bold tracking-normal">{merchant.name}</h1>
-          <p className="mt-1 break-all text-sm text-muted-foreground">{enrollmentUrl(merchant.id)}</p>
+          <p className="mt-1 break-all text-sm text-muted-foreground">{publicUrl}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link className="inline-flex h-11 items-center gap-2 rounded-lg border bg-white px-4 text-sm font-semibold" href={enrollmentUrl(merchant.id)} target="_blank">
+          <Link className="inline-flex h-11 items-center gap-2 rounded-lg border bg-white px-4 text-sm font-semibold" href={publicUrl} target="_blank">
             <ExternalLink size={17} />
             Lien client
           </Link>
