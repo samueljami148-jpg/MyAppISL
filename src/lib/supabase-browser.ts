@@ -1,11 +1,12 @@
 import { createBrowserClient } from "@supabase/ssr";
 
-function env(name: string) {
-  const value = process.env[name];
-  if (!value) throw new Error(`Missing environment variable ${name}`);
-  return value;
-}
-
 export function createSupabaseBrowserClient() {
-  return createBrowserClient(env("NEXT_PUBLIC_SUPABASE_URL"), env("NEXT_PUBLIC_SUPABASE_ANON_KEY"));
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error("Missing Supabase browser environment variables");
+  }
+
+  return createBrowserClient(supabaseUrl, supabaseAnonKey);
 }
